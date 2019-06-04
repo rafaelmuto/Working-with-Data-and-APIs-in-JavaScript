@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>1.2 Tabular Data - Working With Data & APIs in JavaScript</title>
+    <style>
+      * {
+        font-family: 'Courier New', Courier, monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>1.2 Tabular Data - Working With Data & APIs in JavaScript</h1>
+    <hr />
+    <script>
+      // data from https://data.giss.nasa.gov/gistemp/
+      const getData = async () => {
+        const res = await fetch('./public/ZonAnn.Ts+dSST.csv');
+        const data = await res.text();
+        // console.log(data);
+
+        const table = data.split('\n').slice(1);
+        // console.log(rows);
+        table.forEach(row => {
+          const columns = row.split(',');
+          const year = columns[0];
+          const temp = columns[1];
+          console.log(year, temp);
+        });
+      };
+
+      getData();
+    </script>
+  </body>
+</html>
