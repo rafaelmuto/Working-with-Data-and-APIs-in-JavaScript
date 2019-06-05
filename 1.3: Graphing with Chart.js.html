@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>
+      1.3: Graphing with Chart.js - Working With Data & APIs in JavaScript
+    </title>
+    <style>
+      * {
+        font-family: 'Courier New', Courier, monospace;
+      }
+    </style>
+    <!-- => importing chart.js via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+  </head>
+  <body>
+    <h1>
+      1.3: Graphing with Chart.js - Working With Data & APIs in JavaScript
+    </h1>
+    <hr />
+    <canvas id="canvas" width="480px" height="240px"></canvas>
+    <script>
+      // => function to chart data to canvas
+      const chartIt = async () => {
+        const data = await getData();
+        const ctx = document.getElementById('canvas').getContext('2d');
+        const myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.x,
+            datasets: [
+              {
+                label:
+                  'Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies (Land-Ocean Temperature Index, LOTI) in C°',
+                data: data.y,
+                fill: false,
+                backgroundColor: 'rgba(255,99,132,0.2)',
+                borderColor: 'rgba(255,99,132,1)',
+                borderWidth: 2
+              }
+            ]
+          },
+          options: {
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    callback: (value, index, values) => {
+                      return value + '°';
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        });
+      };
+
+      // => function to fetch data from csv file
+      const getData = async () => {
+        const x = [];
+        const y = [];
+        const avTemp = 14;
+
+        // data from https://data.giss.nasa.gov/gistemp/
+        const res = await fetch('./public/ZonAnn.Ts+dSST.csv');
+        const data = await res.text();
+        // console.log(data);
+
+        const table = data.split('\n').slice(1);
+        // console.log(rows);
+        table.forEach(row => {
+          const columns = row.split(',');
+          const year = columns[0];
+          x.push(year);
+          const temp = columns[1];
+          y.push(parseFloat(temp) + avTemp);
+          console.log(year, temp);
+        });
+        return { x, y };
+      };
+
+      chartIt();
+    </script>
+  </body>
+</html>
