@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>
+      1.5: Mapping Geolocation with Leaflet.js - Working with Data and APIs in
+      JavaScript
+    </title>
+    <style>
+      * {
+        font-family: monospace;
+      }
+      #issMap {
+        height: 720px;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+  </head>
+  <body>
+    <script
+      src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+      integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+      crossorigin=""
+    ></script>
+    <h1>1.4: JSON - Working with Data and APIs in JavaScript</h1>
+    <hr />
+    <h2>Where is the ISS?</h2>
+    <p>Latitude: <span id="lat"></span></p>
+    <p>Longitude: <span id="lon"></span></p>
+    <div id="issMap"></div>
+
+    <script>
+      // Leaflet.js obj:
+      const mymap = L.map('issMap').setView([0, 0], 2.3);
+      const marker = L.marker([0, 0]).addTo(mymap);
+
+      //openstreet maps tile:
+      const attribution =
+        '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
+      const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      const tiles = L.tileLayer(tileUrl, { attribution }).addTo(mymap);
+
+      const getISS = async () => {
+        // wheretheiss.at API:
+        const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
+        const res = await fetch(api_url);
+        const data = await res.json();
+
+        console.log(data);
+        marker.setLatLng([data.latitude, data.longitude]);
+        mymap.setView([data.latitude, data.longitude], 5);
+        document.getElementById('lat').textContent = data.latitude;
+        document.getElementById('lon').textContent = data.longitude;
+      };
+
+      setInterval(getISS, 1000);
+    </script>
+  </body>
+</html>
