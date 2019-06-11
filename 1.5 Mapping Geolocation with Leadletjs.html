@@ -47,6 +47,8 @@
       const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
       const tiles = L.tileLayer(tileUrl, { attribution }).addTo(mymap);
 
+      let firstTime = true;
+
       const getISS = async () => {
         // wheretheiss.at API:
         const api_url = 'https://api.wheretheiss.at/v1/satellites/25544';
@@ -55,9 +57,15 @@
 
         console.log(data);
         marker.setLatLng([data.latitude, data.longitude]);
-        mymap.setView([data.latitude, data.longitude], 5);
-        document.getElementById('lat').textContent = data.latitude;
-        document.getElementById('lon').textContent = data.longitude;
+        if (firstTime) {
+          mymap.setView([data.latitude, data.longitude], 5);
+          firstTime = false;
+        } else {
+          mymap.setView([data.latitude, data.longitude]);
+        }
+
+        document.getElementById('lat').textContent = data.latitude.toFixed(4);
+        document.getElementById('lon').textContent = data.longitude.toFixed(4);
       };
 
       setInterval(getISS, 1000);
