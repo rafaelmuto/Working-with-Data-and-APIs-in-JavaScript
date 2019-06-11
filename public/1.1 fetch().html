@@ -18,7 +18,7 @@
     <!-- ==> fetch() with promisses .then().catch() -->
     <img src="" id="image" width="480px" />
     <script>
-      fetch('./public/image.png')
+      fetch('image.png')
         .then(res => {
           console.log(res);
           return res.blob();
@@ -33,7 +33,7 @@
     <img src="" id="image2" width="480px" />
     <script>
       const getImage = async () => {
-        const response = await fetch('./public/image.png');
+        const response = await fetch('image.png');
         const blob = await response.blob();
         document.getElementById('image2').src = URL.createObjectURL(blob);
       };

@@ -86,7 +86,7 @@
         const avTemp = 14;
 
         // data from https://data.giss.nasa.gov/gistemp/
-        const res = await fetch('./public/ZonAnn.Ts+dSST.csv');
+        const res = await fetch('ZonAnn.Ts+dSST.csv');
         const data = await res.text();
 
         const table = data.split('\n').slice(1);
