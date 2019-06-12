@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>2.2 Geolocation Web API</title>
+    <style>
+      * {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>2.2 Geolocation Web API - Working with Data and APIs in JavaScript</h1>
+    <hr />
+    <p>latitude: <span id="latitude"></span></p>
+    <p>longitude: <span id="longitude"></span></p>
+    <script>
+      if ('geolocation' in navigator) {
+        console.log('geolocation available');
+        navigator.geolocation.getCurrentPosition(pos => {
+          console.log(pos);
+          document.getElementById('latitude').textContent = pos.coords.latitude;
+          document.getElementById('longitude').textContent = pos.coords.longitude;
+        });
+      } else {
+        console.log('geolocation not available');
+      }
+    </script>
+  </body>
+</html>
