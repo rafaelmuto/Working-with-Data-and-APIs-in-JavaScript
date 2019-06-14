@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title><!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <meta http-equiv="X-UA-Compatible" content="ie=edge" /> <title>2.4 Saving to a Database</title>
+    <style>
+      * {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>2.4 Saving to a Database - Working with Data and APIs in JavaScript</h1>
+    <hr />
+    <p>latitude: <span id="latitude"></span></p>
+    <p>longitude: <span id="longitude"></span></p>
+    <script>
+      if ('geolocation' in navigator) {
+        console.log('geolocation available');
+        navigator.geolocation.getCurrentPosition(async pos => {
+          let lat = pos.coords.latitude;
+          let lon = pos.coords.longitude;
+
+          console.log(pos);
+
+          document.getElementById('latitude').textContent = lat;
+          document.getElementById('longitude').textContent = lon;
+
+          const data = { lat, lon };
+
+          console.log(data);
+          const options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          };
+
+          const res = await fetch('/API', options);
+          const json = await res.json();
+          console.log(json);
+        });
+      } else {
+        console.log('geolocation not available');
+      }
+    </script>
+  </body>
+</html>
