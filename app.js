@@ -11,17 +11,27 @@ database.loadDatabase();
 // static server
 app.use(express.static('public'));
 
-// route+controller
-app.use('/API', (req, res) => {
+// => route+controller
+app.post('/API', (req, res) => {
   const data = req.body;
   data.timestamp = Date.now();
-
   database.insert(data);
-
+  console.log('Nedb:', data);
   res.json({
     status: 'ok!',
     latitude: req.body.lat,
-    longitude: req.body.lon
+    longitude: req.body.lon,
+    name: req.body.name,
+    msg: req.body.msg
+  });
+});
+app.get('/API', (req, res) => {
+  database.find({}, (err, data) => {
+    if (err) {
+      res.end();
+      return;
+    }
+    res.json(data);
   });
 });
 

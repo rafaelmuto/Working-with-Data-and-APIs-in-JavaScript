@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>2.5 Database Query - Working with Data and APIs in JavaScript</title>
+    <style>
+      * {
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>2.5 Database Query - Working with Data and APIs in JavaScript</h1>
+    <hr />
+    <p>latitude: <span id="latitude"></span></p>
+    <p>longitude: <span id="longitude"></span></p>
+    <p><label for="name">Name:</label><input type="text" name="name" id="name" /></p>
+    <p><label for="msg">Message:</label> <textarea name="msg" id="msg" cols="30" rows="10"></textarea></p>
+    <button id="submit">Submit</button>
+    <hr />
+    <div id="list"></div>
+
+    <script>
+      let lat, lon;
+
+      document.getElementById('submit').addEventListener('click', async event => {
+        const msg = document.getElementById('msg').value;
+        const name = document.getElementById('name').value;
+        const data = { lat, lon, name, msg };
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        };
+        const res = await fetch('/API', options);
+        const json = await res.json();
+        window.location = '/2.5 Database Query.html';
+        console.log(json);
+      });
+
+      if ('geolocation' in navigator) {
+        console.log('geolocation available');
+        navigator.geolocation.getCurrentPosition(async pos => {
+          lat = pos.coords.latitude;
+          lon = pos.coords.longitude;
+          document.getElementById('latitude').textContent = lat;
+          document.getElementById('longitude').textContent = lon;
+        });
+      } else {
+        console.log('geolocation not available');
+      }
+
+      const printData = async () => {
+        const res = await fetch('/API');
+        const data = await res.json();
+
+        console.log('fetching api');
+        console.log(data);
+
+        const list_item = document.getElementById('list');
+
+        for (item of data) {
+          const list_item__id = document.createElement('p');
+          list_item__id.textContent = item._id;
+          const list_item__info = document.createElement('p');
+          list_item__info.textContent = `Name: ${item.name} [${item.lat},${item.lon}] - ${item.timestamp}`;
+          const list_item__msg = document.createElement('p');
+          list_item__msg.textContent = item.msg;
+          const list_item__hr = document.createElement('hr');
+
+          list_item.append(list_item__id, list_item__info, list_item__msg, list_item__hr);
+        }
+      };
+
+      printData();
+    </script>
+  </body>
+</html>
