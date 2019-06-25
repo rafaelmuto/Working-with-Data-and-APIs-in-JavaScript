@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Selfie Appy</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.dom.min.js"></script>
+  </head>
+  <body>
+    <div class="main_container">
+      <h1>Selfie Appy</h1>
+      <div class="inside_container">
+        <div id="p5_canvas"></div>
+        <p>latitude: <span id="latitude"></span></p>
+        <p>longitude: <span id="longitude"></span></p>
+        <p><label for="name">Name:</label><input type="text" name="name" id="name" /></p>
+        <p><label for="msg">Message:</label> <textarea name="msg" id="msg" cols="30" rows="10"></textarea></p>
+        <button id="submit">Submit</button>
+        <hr />
+        <div id="list"></div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

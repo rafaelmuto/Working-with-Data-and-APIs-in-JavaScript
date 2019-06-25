@@ -16,7 +16,7 @@ app.post('/API', (req, res) => {
   const data = req.body;
   data.timestamp = Date.now();
   database.insert(data);
-  console.log('Nedb:', data);
+  // console.log('Nedb:', data);
   res.json({
     status: 'ok!',
     latitude: req.body.lat,

@@ -1,0 +1,35 @@
+:root {
+  --base_color: #ea3342;
+  --acsent_color: #961c26;
+  --back_color: pink;
+}
+
+* {
+  font-family: monospace;
+}
+
+.main_container {
+  margin: 0 auto;
+  width: 600px;
+  border: 2px solid var(--acsent_color);
+  border-radius: 30px;
+  padding: 10px;
+  background-color: var(--base_color);
+}
+.main_container h1 {
+  color: var(--acsent_color);
+  text-align: center;
+}
+
+.inside_container {
+  padding: 10px;
+  background-color: var(--back_color);
+  border: 2px solid var(--acsent_color);
+  border-radius: 30px;
+  display: grid;
+}
+
+.inside_container #p5_canvas {
+  border-radius: 30px;
+  justify-self: center;
+}
