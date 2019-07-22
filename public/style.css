@@ -1,35 +1,28 @@
-:root {
-  --base_color: #ea3342;
-  --acsent_color: #961c26;
-  --back_color: pink;
-}
-
 * {
   font-family: monospace;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.shadow_div {
+  border: 2px solid black;
+  box-shadow: 3px 3px;
+  border-radius: 1px;
 }
 
 .main_container {
   margin: 0 auto;
-  width: 600px;
-  border: 2px solid var(--acsent_color);
-  border-radius: 30px;
-  padding: 10px;
-  background-color: var(--base_color);
+  width: 640px;
+  display: grid;
+  grid-template-rows: 2rem, 5rem;
 }
 .main_container h1 {
-  color: var(--acsent_color);
-  text-align: center;
+  padding: 0 5px;
+  background-color: black;
+  color: white;
 }
 
-.inside_container {
-  padding: 10px;
-  background-color: var(--back_color);
-  border: 2px solid var(--acsent_color);
-  border-radius: 30px;
-  display: grid;
-}
-
-.inside_container #p5_canvas {
-  border-radius: 30px;
-  justify-self: center;
+#p5_canvas {
+  width: 100%;
 }

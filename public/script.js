@@ -1,19 +1,36 @@
 let video;
 
 function setup() {
-  const canvas = createCanvas(320, 240);
+  const canvas = createCanvas(635, 480);
   canvas.parent('p5_canvas');
 
+  // setting-up webcam capture:
   video = createCapture(VIDEO);
   video.size(80, 60);
   video.hide();
 
   let lat, lon;
 
+  // => SUBMIT post:
   document.getElementById('submit').addEventListener('click', async event => {
+    // getting msg and name from form:
     const msg = document.getElementById('msg').value;
     const name = document.getElementById('name').value;
 
+    // getting geolocation data:
+    if ('geolocation' in navigator) {
+      console.log('geolocation available');
+      navigator.geolocation.getCurrentPosition(async pos => {
+        lat = pos.coords.latitude;
+        lon = pos.coords.longitude;
+        document.getElementById('latitude').textContent = lat;
+        document.getElementById('longitude').textContent = lon;
+      });
+    } else {
+      console.log('geolocation not available');
+    }
+
+    // como enviar a imagem para o backend?
     video.loadPixels();
     const image64 = video.canvas.toDataURL();
 
@@ -31,18 +48,7 @@ function setup() {
     console.log('data entered!');
   });
 
-  if ('geolocation' in navigator) {
-    console.log('geolocation available');
-    navigator.geolocation.getCurrentPosition(async pos => {
-      lat = pos.coords.latitude;
-      lon = pos.coords.longitude;
-      document.getElementById('latitude').textContent = lat;
-      document.getElementById('longitude').textContent = lon;
-    });
-  } else {
-    console.log('geolocation not available');
-  }
-
+  // GET post list from API:
   const printData = async () => {
     const res = await fetch('/API');
     const data = await res.json();
@@ -71,5 +77,6 @@ function setup() {
 }
 
 function draw() {
-  image(video, 0, 0, 320, 240);
+  // showing video feed:
+  image(video, 0, 0, 640, 480);
 }

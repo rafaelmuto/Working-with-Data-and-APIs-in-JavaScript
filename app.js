@@ -8,10 +8,10 @@ app.use(express.json());
 const database = new Datastore('database.db');
 database.loadDatabase();
 
-// static server
+// => serving static files at '/'
 app.use(express.static('public'));
 
-// => route+controller
+// => API POST end point for posting...
 app.post('/API', (req, res) => {
   const data = req.body;
   data.timestamp = Date.now();
@@ -25,14 +25,19 @@ app.post('/API', (req, res) => {
     msg: req.body.msg
   });
 });
+
+// => API GET end point for getting post list
 app.get('/API', (req, res) => {
-  database.find({}, (err, data) => {
-    if (err) {
-      res.end();
-      return;
-    }
-    res.json(data);
-  });
+  database
+    .find({})
+    .sort({ timestamp: -1 })
+    .exec((err, data) => {
+      if (err) {
+        res.end();
+        return;
+      }
+      res.json(data);
+    });
 });
 
 app.listen(3001, () => {
