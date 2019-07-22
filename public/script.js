@@ -27,7 +27,7 @@ function setup() {
     };
     const res = await fetch('/API', options);
     const json = await res.json();
-    window.location = '/selfie_app.html';
+    window.location = '/index.html';
     console.log('data entered!');
   });
 

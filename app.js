@@ -37,4 +37,5 @@ app.get('/API', (req, res) => {
 
 app.listen(3001, () => {
   console.log('==> running express...');
+  console.log('-> starting server on: //localhost:3001');
 });
