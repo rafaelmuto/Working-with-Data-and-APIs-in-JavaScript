@@ -26,3 +26,37 @@
 #p5_canvas {
   width: 100%;
 }
+
+.form {
+  border-bottom: 2px solid black;
+  padding: 0 0.5rem;
+}
+
+input,
+textarea,
+button {
+  width: 100%;
+}
+
+button {
+  height: 3rem;
+  margin-bottom: 1rem;
+  background-color: black;
+  color: white;
+}
+
+.post {
+  font-size: 0.5rem;
+  display: grid;
+  grid-template-areas:
+    'img info'
+    'img msg';
+  grid-template-columns: 80px auto;
+  grid-column-gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed black;
+}
+
+.post__selfy {
+  grid-area: img;
+}

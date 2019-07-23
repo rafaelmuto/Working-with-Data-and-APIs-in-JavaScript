@@ -11,24 +11,24 @@ function setup() {
 
   let lat, lon;
 
+  // getting geolocation data:
+  if ('geolocation' in navigator) {
+    console.log('geolocation available');
+    navigator.geolocation.getCurrentPosition(async pos => {
+      lat = pos.coords.latitude;
+      lon = pos.coords.longitude;
+      document.getElementById('latitude').textContent = lat;
+      document.getElementById('longitude').textContent = lon;
+    });
+  } else {
+    console.log('geolocation not available');
+  }
+
   // => SUBMIT post:
   document.getElementById('submit').addEventListener('click', async event => {
     // getting msg and name from form:
     const msg = document.getElementById('msg').value;
     const name = document.getElementById('name').value;
-
-    // getting geolocation data:
-    if ('geolocation' in navigator) {
-      console.log('geolocation available');
-      navigator.geolocation.getCurrentPosition(async pos => {
-        lat = pos.coords.latitude;
-        lon = pos.coords.longitude;
-        document.getElementById('latitude').textContent = lat;
-        document.getElementById('longitude').textContent = lon;
-      });
-    } else {
-      console.log('geolocation not available');
-    }
 
     // como enviar a imagem para o backend?
     video.loadPixels();
@@ -53,23 +53,28 @@ function setup() {
     const res = await fetch('/API');
     const data = await res.json();
 
-    console.log('fetching api');
+    console.log('fetching api...');
     console.log(data);
 
-    const list_item = document.getElementById('list');
+    const postsList = document.getElementById('postsList');
 
     for (item of data) {
-      const list_item__image = document.createElement('img');
-      list_item__image.src = item.image64;
-      const list_item__id = document.createElement('p');
-      list_item__id.textContent = item._id;
-      const list_item__info = document.createElement('p');
-      list_item__info.textContent = `Name: ${item.name} [${item.lat},${item.lon}] - ${item.timestamp}`;
-      const list_item__msg = document.createElement('p');
-      list_item__msg.textContent = item.msg;
-      const list_item__hr = document.createElement('hr');
+      const postItem = document.createElement('div');
+      postItem.setAttribute('class', 'post');
+      postItem.setAttribute('id', item._id);
 
-      list_item.append(list_item__id, list_item__info, list_item__msg, list_item__hr, list_item__image);
+      const post__image = document.createElement('img');
+      post__image.src = item.image64;
+      post__image.setAttribute('class', 'post__selfy');
+      const post__info = document.createElement('p');
+      post__info.textContent = `>>>${item._id}: ${item.name} [${item.lat},${item.lon}] @ ${item.timestamp}`;
+      post__info.setAttribute('class', 'post__info');
+      const post__msg = document.createElement('p');
+      post__msg.textContent = item.msg;
+      post__msg.setAttribute('class', 'post__msg');
+
+      postItem.append(post__image, post__info, post__msg);
+      postsList.append(postItem);
     }
   };
 
